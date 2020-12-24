@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+//ローカルストレージに保存する際のカスタムフック
 export const useStateWithStorage = (init: string, key: string): [string, (s: string) => void] => {
   const [value, setValue] = useState<string>(localStorage.getItem(key) || init)
 
