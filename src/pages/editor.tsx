@@ -48,11 +48,13 @@ const Preview = styled.div`
   width: 50vw;
 `
 
-const StorageKey = 'pages/editor:text'
+interface Props {
+  text: string
+  setText: (text: string) => void
+}
 
-export const Editor: React.FC = () => {
-  const [text, setText] = useStateWithStorage('', StorageKey)
-
+export const Editor: React.FC<Props> = (props) => {
+  const {text, setText} = props
   const [showModal, setShowModal] = useState(false)
 
   return (
@@ -68,10 +70,10 @@ export const Editor: React.FC = () => {
         </Header>
       </HeaderArea>
       <Wrapper>
-
         <TextArea
+          value={text}
           onChange={(event) => setText(event.target.value)}
-          />
+        />
         <Preview>
           <ReactMarkdown source={text}/>
         </Preview>

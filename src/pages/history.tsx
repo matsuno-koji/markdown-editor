@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Header } from '../components/header'
 import {
@@ -47,8 +47,14 @@ const MemoText = styled.div`
   white-space: nowrap;
 `
 
-export const History: React.FC = () => {
+interface Props {
+  setText: (text: string) => void
+}
+
+export const History: React.FC<Props> = (props) => {
+  const {setText} = props
   const [memos, setMemos] = useState<MemoRecord[]>([])
+  const history = useHistory()
 
   // 副作用フック(effect hook)　レンダリングの後に実行される
   useEffect(() => {
@@ -65,7 +71,13 @@ export const History: React.FC = () => {
       </HeaderArea>
       <Wrapper>
         {memos.map(memo => (
-          <Memo key={memo.datetime}>
+          <Memo
+            key={memo.datetime}
+            onClick={() => {
+              setText(memo.text)
+              history.push('/editor')
+            }}
+          >
             <MemoTitle>{memo.title}</MemoTitle>
             <MemoText>{memo.text}</MemoText>
           </Memo>
