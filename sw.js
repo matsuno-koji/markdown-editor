@@ -21,5 +21,7 @@ const networkFallingBackToCache = async (request) => {
 }
 
 self.addEventListener('fetch', (event) => {
+  //chrome-extensionのエラー対策　参考:https://github.com/iamshaunjp/pwa-tutorial/issues/1
+  if (!(evt.request.url.indexOf('http') === 0)) return;
   event.respondWith(networkFallingBackToCache(event.request))
 })
